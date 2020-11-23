@@ -6,11 +6,11 @@
 {% block content %}
 
         {% if login_successful %}
-        successfully logged in!
+        You are logged in!
         {% endif %}
 
         {% if login_unsuccessful %}
-        ERROR: username/password not found
+        ERROR: Username or Password Not Found!
         {% endif %}
 
         {% if login_default or login_unsuccessful %}
