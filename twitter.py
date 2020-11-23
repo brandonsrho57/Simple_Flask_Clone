@@ -25,7 +25,7 @@ def root():
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
     sql = """
-        SELECT sender_id, message FROM messages;
+        SELECT sender_id, message, id FROM messages;
     """
     cur.execute(sql)
     results = cur.fetchall()
@@ -40,7 +40,8 @@ def root():
             username = username_row[0]
         messages.append({
             'text': result[1],
-            'username': username
+            'username': username,
+            'id' : result[2]
         })
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
@@ -109,6 +110,42 @@ def logout():
     res.set_cookie('username', '', expires=0)
     res.set_cookie('password', '', expires=0)
     return res
+
+@app.route('/delete_message/<id>')
+def delete_message(id):
+
+    con = sqlite3.connect('twitter_database.db')
+    cur = con.cursor()
+
+    if logged_in(
+        cur=cur,
+        username=request.cookies.get('username'),
+        password=request.cookies.get('password'),
+    ):
+        sql="""
+        DELETE FROM messages WHERE id=?;
+        """
+        cur.execute(sql, (id,))
+        con.commit()
+    return 'Message Deleted'
+
+@app.route('/delete_user')
+def delete_user():
+
+    con = sqlite3.connect('twitter_database.db')
+    cur = con.cursor()
+
+    if logged_in(
+            cur=cur,
+            username=request.cookies.get('username'),
+            password=request.cookies.get('password'),
+    ):
+
+        sql = """
+        DELETE FROM users WHERE username=?;
+        """
+        cur.execute(sql, (username,))
+        con.commit()
 
 @app.route('/static/<path>')
 def static_directory(path):
