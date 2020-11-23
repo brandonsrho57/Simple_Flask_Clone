@@ -1,6 +1,6 @@
 # Simple Flask Twitter Clone
 
-![twitter_clone.png](twitter clone snapshot)
+![twitter clone snapshot](twitter_clone.png)
 
 For CS40, our last project is to create a simple twitter clone using the Flask library in Python (3.8).
 The simple web application utilizes several libraries to work in conjunction with Flask including:
