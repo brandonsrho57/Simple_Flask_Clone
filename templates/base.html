@@ -8,14 +8,14 @@
         {% block title %}
         {% endblock %}
         <ul>
-            <li><a href='/'>visit the root</a></li>
+            <li><a href='/'>The Root</a></li>
             {% if username %}
-            <li><a href='/logout'>logout</a></li>
+            <li><a href='/logout'>Log Out</a></li>
             {% else %}
-            <li><a href='/login'>login</a></li>
+            <li><a href='/login'>Log In</a></li>
             {% endif %}
-            <li><a href='/create_message'>create message</a></li>
-            <li><a href='/create_account'>create account</a></li>
+            <li><a href='/create_message'>Create Message</a></li>
+            <li><a href='/create_user'>Create Account</a></li>
         </ul>
         {% block content %}
         {% endblock %}
