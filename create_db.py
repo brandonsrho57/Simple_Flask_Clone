@@ -3,71 +3,44 @@ import sqlite3
 con = sqlite3.connect('twitter_database.db')
 cur = con.cursor()
 
-sql = """
+sql0 = '''
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    age INTEGER
+);
+'''
+cur.executescript(sql0)
+
+sql1 = '''
+insert into users (username, password, age) values 
+    ('brandon', '05071999', 21),
+    ('kristi', '092000', 20),
+    ('susie', '031369', 51),
+    ('shin', '111165', 55),
+    ('richie', '12345', 13),
+    ('toby', '54321', 4)
+'''
+cur.executescript(sql1)
+con.commit()
+
+sql2 = '''
 create table messages (
     id integer primary key,
-    message_id integer not null,
     sender_id integer not null,
-    message text not null,
-    created_at timestamp not null default current_timestamp
+    message text not null
     );
-"""
-cur.execute(sql)
+'''
+cur.executescript(sql2)
 
-sql = """
-insert into messages (message_id, sender_id, message, created_at) values (10, 1, 'Hi Mike', '2020-10-01 15:30:25');
-"""
-cur.execute(sql)
-con.commit()
-
-sql = """
-insert into messages (message_id, sender_id, message, created_at) values (11, 2, 'I love CS', '2020-10-01 16:30:30');
-"""
-cur.execute(sql)
-con.commit()
-
-sql = """
-insert into messages (message_id, sender_id, message, created_at) values (12, 3, 'I hate reading', '2020-10-01 22:37:55');
-"""
-cur.execute(sql)
-con.commit()
-
-sql = """
-insert into messages (message_id, sender_id, message, created_at) values (13, 4, 'Age of Empires is a great game', '2020-10-01 04:16:22');
-"""
-cur.execute(sql)
-con.commit()
-
-sql = """
-insert into messages (message_id, sender_id, message, created_at) values (14, 5, 'lol', '2020-10-01 20:30:40');
-"""
-cur.execute(sql)
-con.commit()
-
-sql = """
-create table users (
-    id integer primary key,
-    username text not null unique,
-    password text not null,
-    age integer
-    );
-"""
-cur.execute(sql)
-
-sql = """
-insert into users (username, password, age) values ('brandon', '00000', 21);
-"""
-cur.execute(sql)
-con.commit()
-
-sql = """
-insert into users (username, password, age) values ('mike', 'abcdef', 35);
-"""
-cur.execute(sql)
-con.commit()
-
-sql = """
-insert into users (username, password, age) values ('jonathan', 'password', 10);
-"""
-cur.execute(sql)
+sql4 = '''
+insert into messages (sender_id, message) values 
+    (1, 'All problems in computer science can be solved by another level of indirection. But that usually will create another problem.'),
+    (2, 'Simplicity is prerequisite for reliability.'),
+    (3, 'It''s harder to read code than to write it.'),
+    (4, 'Don''t repeat yourself. Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.'),
+    (5, 'There are only two hard things in computer science: cache invalidation and naming things.');
+'''
+cur.executescript(sql4)
 con.commit()
