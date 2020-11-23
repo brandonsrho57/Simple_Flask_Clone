@@ -4,12 +4,14 @@
 {% endblock %}
 
 {% block content %}
-        {% if username %}
-        Welcome, {{username}}!
-        {% endif %}
 
+        {% if username %}
+        <h3>Welcome, {{username}}!</h3>
+        {% endif %}
+        <br>
         <table>
-            <tr><td>username</td><td>message</td></tr>
+            <tr><td>Username</td><td>Message</td></tr>
+                <br>
         {% for message in messages %}
         <tr><td>{{message.username}}</td><td>{{ message.text }}</td></tr>
         {% endfor %}
