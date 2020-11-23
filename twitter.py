@@ -114,4 +114,8 @@ def logout():
 def static_directory(path):
     return send_from_directory('static', path)
 
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
 app.run()
