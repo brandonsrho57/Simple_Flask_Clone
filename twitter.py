@@ -1,6 +1,5 @@
 from flask import Flask, render_template, send_from_directory, request, make_response
 import sqlite3
-import time
 
 app = Flask(__name__)
 
@@ -107,8 +106,6 @@ def create_user():
         cur.execute(sql, (username, password, age))
         con.commit()
         return "You successfully created an account!"
-        time.sleep(3)
-        return render_template('login.html')
     else:
         return "Passwords don't match! Please try again."
 
@@ -192,8 +189,6 @@ def delete_message(id):
         cur.execute(sql, (id,))
         con.commit()
     return 'Message Deleted'
-    time.sleep(3)
-    return render_template('root.html')
 
 @app.route('/delete_user/<id>')
 def delete_user(id):
@@ -212,8 +207,6 @@ def delete_user(id):
         cur.execute(sql, (id,))
         con.commit()
     return 'User Deleted'
-    time.sleep(3)
-    return render_template('root.html')
 
 @app.route('/static/<path>')
 def static_directory(path):
