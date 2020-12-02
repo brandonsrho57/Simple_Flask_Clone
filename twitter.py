@@ -116,7 +116,7 @@ def create_user():
 
 @app.route('/create_message', methods=['get', 'post'])
 def create_message():
-    logged_in = True
+    # logged_in = True
     if request.form.get('message'):
         con = sqlite3.connect('twitter_database.db')
         cur = con.cursor()
@@ -145,24 +145,24 @@ def create_message():
         if message_successful:
             res = make_response(render_template(
                 'create_message.html',
-                message_successful = True,
-                username = request.cookies.get('username'),
-                password = request.cookies.get('password'),
-                message = request.form.get('message')
+                message_successful=True,
+                username=request.cookies.get('username'),
+                password=request.cookies.get('password'),
+                message=request.form.get('message')
             ))
             return res
         else:
             return render_template(
                 'create_message.html',
-                username = request.cookies.get('username'),
-                password = request.cookies.get('password'),
-                message_unsuccessful = True
+                username=request.cookies.get('username'),
+                password=request.cookies.get('password'),
+                message_unsuccessful=True
             )
     else:
         res = make_response(render_template(
             'create_message.html',
-            username = request.cookies.get('username'),
-            password = request.cookies.get('password'),
+            username=request.cookies.get('username'),
+            password=request.cookies.get('password'),
             message_default=True
         ))
         return res
@@ -176,8 +176,8 @@ def logout():
     res.set_cookie('password', '', expires=0)
     return res
 
-@app.route('/delete_message/<id>')
-def delete_message(id):
+@app.route('/delete_message/<message_id>')
+def delete_message(message_id):
 
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
@@ -187,15 +187,15 @@ def delete_message(id):
         username=request.cookies.get('username'),
         password=request.cookies.get('password'),
     ):
-        sql="""
+        sql = """
         DELETE FROM messages WHERE id=?;
         """
-        cur.execute(sql, (id,))
+        cur.execute(sql, (message_id,))
         con.commit()
     return 'Message Deleted'
 
-@app.route('/delete_user/<id>')
-def delete_user(id):
+@app.route('/delete_user/<user_id>')
+def delete_user(user_id):
 
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
@@ -208,7 +208,7 @@ def delete_user(id):
         sql = """
         DELETE FROM users WHERE id=?;
         """
-        cur.execute(sql, (id,))
+        cur.execute(sql, (user_id,))
         con.commit()
     return 'User Deleted'
 
@@ -216,8 +216,8 @@ def delete_user(id):
 def static_directory(path):
     return send_from_directory('static', path)
 
-@app.route('/index')
-def index():
-    return render_template('index.html')
+@app.route('/mike')
+def mike():
+    return render_template('mike.html')
 
 app.run()
