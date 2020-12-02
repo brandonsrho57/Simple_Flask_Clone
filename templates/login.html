@@ -1,9 +1,5 @@
 {% extends 'base.html' %}
 
-{% block title %}
-        <h2>Login</h2>
-{% endblock %}
-
 {% block content %}
 
         {% if login_successful %}
@@ -14,6 +10,7 @@
         ERROR: Username or Password Not Found! Sign Up!
         {% endif %}
 
+        <h2>Login</h2>
         {% if login_default or login_unsuccessful %}
         <form action=/login method=POST>
             <table>
