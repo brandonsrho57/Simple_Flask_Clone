@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
         <h2>Create User</h2>
-        <ul>
-            <li><a href="/">Home</a></li>
-        </ul>
 
         <form action=/create_user method=POST>
             <table>
@@ -13,7 +11,7 @@
                 <tr><td>Repeat Password</td><td><input type=password name=repeatpassword></td></tr>
                 <tr><td>Age</td><td><input type=integer name=age></td></tr>
             </table>
-            <input type=submit value='create_user'>
+            <input type=submit value='Create User'>
         </form>
 
 {% endblock %}
