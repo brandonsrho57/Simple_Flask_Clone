@@ -26,6 +26,7 @@ select * from messages;
 cur.execute(sql)
 for row in cur.fetchall():
     print('id=', row[0])
-    print('id_sender=', row[1])
+    print('sender_id=', row[1])
     print('message=', row[2])
+    print('created at=', row[3])
     print('================')
