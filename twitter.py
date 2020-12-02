@@ -17,15 +17,10 @@ def logged_in(cur, username, password):
 
 @app.route('/')
 def root():
-    messages = [
-        {'text': "What's popping?", 'username': 'Jacob'},
-        {'text': "I will make America Great Again", 'username': 'Trump'},
-        {'text': "Baseball is the best sport", 'username': 'Nick'},
-    ]
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
     sql = """
-        SELECT sender_id, message, id FROM messages;
+        SELECT sender_id, message, created_at FROM messages;
     """
     cur.execute(sql)
     results = cur.fetchall()
@@ -41,7 +36,7 @@ def root():
         messages.append({
             'text': result[1],
             'username': username,
-            'id' : result[2]
+            'created_at': result[2]
         })
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
@@ -94,13 +89,75 @@ def login():
             login_default=True,
         )
 
-@app.route('/create_message')
-def create_message():
-    return render_template('create_message.html')
-
-@app.route('/create_user')
+@app.route('/create_user', methods=['get', 'post'])
 def create_user():
-    return render_template('create_user.html')
+    if request.method == 'GET':
+        return render_template('create_user.html')
+    con = sqlite3.connect('twitter_database.db')
+    cur = con.cursor()
+    username = request.form.get('username')
+    password = request.form.get('password')
+    age = request.form.get('age')
+    sql = """
+    INSERT into users (username,password,age) values (?,?,?);
+    """
+    cur.execute(sql, (username, password, age))
+    con.commit()
+    return render_template('login.html')
+
+@app.route('/create_message', methods=['get', 'post'])
+def create_message():
+    logged_in = True
+    if request.form.get('message'):
+        con = sqlite3.connect('twitter_database.db')
+        cur = con.cursor()
+        sql = sql = """
+            SELECT id, username FROM users;
+        """
+        cur.execute(sql)
+        rows = cur.fetchall()
+        for row in rows:
+            if row[1] == request.cookies.get('username'):
+                sender_id = row[0]
+            print(row)
+        message = request.form.get('message')
+        con = sqlite3.connect('twitter_database.db')
+        cur = con.cursor()
+        sql = """
+        INSERT INTO messages (sender_id, message) VALUES (?, ?);
+        """
+        cur.execute(sql, (sender_id, message,))
+        con.commit()
+        rows = cur.fetchall()
+        if len(message) == 0:
+            message_successful = False
+        else:
+            message_successful = True
+
+        if message_successful:
+            res = make_response(render_template(
+                'create_message.html',
+                message_successful = True,
+                username = request.cookies.get('username'),
+                password = request.cookies.get('password'),
+                message = request.form.get('message')
+            ))
+            return res
+        else:
+            return render_template(
+                'create_message.html',
+                username = request.cookies.get('username'),
+                password = request.cookies.get('password'),
+                message_unsuccessful = True
+            )
+    else:
+        res = make_response(render_template(
+            'create_message.html',
+            username = request.cookies.get('username'),
+            password = request.cookies.get('password'),
+            message_default=True
+        ))
+        return res
 
 @app.route('/logout')
 def logout():
@@ -140,7 +197,6 @@ def delete_user():
             username=request.cookies.get('username'),
             password=request.cookies.get('password'),
     ):
-
         sql = """
         DELETE FROM users WHERE username=?;
         """
