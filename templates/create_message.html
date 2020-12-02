@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+        {% if message_successful %}
+        <div class="alert alert-success" role="alert">
+            You successfully created a message!
+        </div>
+        {% endif %}
+
+        {% if message_unsuccessful %}
+        <div class="alert alert-danger" role="alert">
+            Message was not created!
+        </div>
+        {% endif %}
+
         <h2>Create Message</h2>
+
         <ul>
-                <li><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
         </ul>
 
         <form action=/create_message method=POST>
