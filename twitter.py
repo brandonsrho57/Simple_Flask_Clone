@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory, request, make_response
 import sqlite3
+import time
 
 app = Flask(__name__)
 
@@ -34,9 +35,9 @@ def root():
         for username_row in username_rows:
             username = username_row[0]
         messages.append({
-            'text': result[1],
-            'username': username,
-            'created_at': result[2]
+            'Text': result[1],
+            'Username': username,
+            'Created At': result[2]
         })
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
@@ -105,7 +106,12 @@ def create_user():
         """
         cur.execute(sql, (username, password, age))
         con.commit()
-    return render_template('login.html')
+        return "You successfully created an account!"
+        time.sleep(3)
+        return render_template('login.html')
+    else:
+        return "Passwords don't match! Please try again."
+
 
 @app.route('/create_message', methods=['get', 'post'])
 def create_message():
@@ -186,9 +192,11 @@ def delete_message(id):
         cur.execute(sql, (id,))
         con.commit()
     return 'Message Deleted'
+    time.sleep(3)
+    return render_template('root.html')
 
-@app.route('/delete_user')
-def delete_user():
+@app.route('/delete_user/<id>')
+def delete_user(id):
 
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
@@ -199,10 +207,13 @@ def delete_user():
             password=request.cookies.get('password'),
     ):
         sql = """
-        DELETE FROM users WHERE username=?;
+        DELETE FROM users WHERE id=?;
         """
-        cur.execute(sql, (username,))
+        cur.execute(sql, (id,))
         con.commit()
+    return 'User Deleted'
+    time.sleep(3)
+    return render_template('root.html')
 
 @app.route('/static/<path>')
 def static_directory(path):
