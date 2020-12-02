@@ -97,12 +97,14 @@ def create_user():
     cur = con.cursor()
     username = request.form.get('username')
     password = request.form.get('password')
+    repeatpassword = request.form.get('repeatpassword')
     age = request.form.get('age')
-    sql = """
-    INSERT into users (username,password,age) values (?,?,?);
-    """
-    cur.execute(sql, (username, password, age))
-    con.commit()
+    if password == repeatpassword:
+        sql = """
+        INSERT into users (username,password,age) values (?,?,?);
+        """
+        cur.execute(sql, (username, password, age))
+        con.commit()
     return render_template('login.html')
 
 @app.route('/create_message', methods=['get', 'post'])
@@ -111,7 +113,7 @@ def create_message():
     if request.form.get('message'):
         con = sqlite3.connect('twitter_database.db')
         cur = con.cursor()
-        sql = sql = """
+        sql = """
             SELECT id, username FROM users;
         """
         cur.execute(sql)
@@ -128,7 +130,6 @@ def create_message():
         """
         cur.execute(sql, (sender_id, message,))
         con.commit()
-        rows = cur.fetchall()
         if len(message) == 0:
             message_successful = False
         else:
