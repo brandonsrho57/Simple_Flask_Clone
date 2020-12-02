@@ -100,12 +100,15 @@ def create_user():
     repeatpassword = request.form.get('repeatpassword')
     age = request.form.get('age')
     if password == repeatpassword:
-        sql = """
-        INSERT into users (username,password,age) values (?,?,?);
-        """
-        cur.execute(sql, (username, password, age))
-        con.commit()
-        return "You successfully created an account!"
+        try:
+            sql = """
+            INSERT into users (username,password,age) values (?,?,?);
+            """
+            cur.execute(sql, (username, password, age))
+            con.commit()
+            return "You successfully created an account!"
+        except sqlite3.IntegrityError:
+            return "The username already exists!"
     else:
         return "Passwords don't match! Please try again."
 
