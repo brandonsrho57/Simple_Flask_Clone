@@ -10,10 +10,19 @@
         {% endif %}
         <br>
         <table>
-                <tr><td>Username</td><td>Message</td><td>Timestamp</td></tr>
+                <tr>
+                        <td>Username</td>
+                        <td>Message</td>
+                        <td>Timestamp</td>
+                </tr>
                 <br>
                 {% for message in messages %}
-                <tr><td>{{message.username}}</td><td>{{ message.text }}</td><td>{{ message.created_at }}</td><td>{% if username==message.username %}<a href="/delete_message/{{message.id}}">Delete Message</a>{% endif %}</td></tr>
+                <tr>
+                        <td>{{message.username}}</td>
+                        <td>{{ message.text }}</td>
+                        <td>{{ message.created_at }}</td>
+                        <td>{% if username==message.username %}<a href="/delete_message/{{message.id}}">Delete Message</a>{% endif %}</td>
+                </tr>
                 {% endfor %}
         </table>
 {% endblock %}
