@@ -41,7 +41,8 @@ insert into messages (sender_id, message) values
     (2, 'Simplicity is prerequisite for reliability.'),
     (3, 'It''s harder to read code than to write it.'),
     (4, 'Don''t repeat yourself. Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.'),
-    (5, 'There are only two hard things in computer science: cache invalidation and naming things.');
+    (5, 'There are only two hard things in computer science: cache invalidation and naming things.'),
+    (6, 'I''m a dog, I think?');
 '''
 cur.executescript(sql4)
 con.commit()
