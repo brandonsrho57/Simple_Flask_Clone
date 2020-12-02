@@ -29,7 +29,8 @@ sql2 = '''
 create table messages (
     id integer primary key,
     sender_id integer not null,
-    message text not null
+    message text not null,
+    created_at timestamp not null default current_timestamp
     );
 '''
 cur.executescript(sql2)
