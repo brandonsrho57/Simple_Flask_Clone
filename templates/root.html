@@ -7,7 +7,6 @@
 {% block content %}
         {% if username %}
         <h3>Welcome, {{username}}!</h3>
-        <p><a href="/delete_user/{{username}}">Delete User</a></p>
         {% endif %}
 
         <table>
@@ -15,12 +14,14 @@
                 <td>Username</td>
                 <td>Message</td>
                 <td>Timestamp</td>
+                <td>Message ID</td>
             </tr>
             {% for message in messages %}
             <tr>
                 <td>{{ message.username }}</td>
                 <td>{{ message.text }}</td>
                 <td>{{ message.created_at }}</td>
+                <td>{{ message.id }}</td>
                 <td>{% if username==message.username %}<a href="/edit_message/{{message.id}}">Edit Message</a>{% endif %}</td>
                 <td>{% if username==message.username %}<a href="/delete_message/{{message.id}}">Delete Message</a>{% endif %}</td>
             </tr>
