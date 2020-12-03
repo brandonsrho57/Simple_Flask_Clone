@@ -20,7 +20,7 @@ def root():
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
     sql = """
-        SELECT sender_id, message, created_at FROM messages;
+        SELECT sender_id, message, created_at, id FROM messages;
     """
     cur.execute(sql)
     results = cur.fetchall()
@@ -36,23 +36,14 @@ def root():
         messages.insert(0, {
             'text': result[1],
             'username': username,
-            'created_at': result[2]
+            'created_at': result[2],
+            'id': result[3]
         })
-        print(messages)
-    con = sqlite3.connect('twitter_database.db')
-    cur = con.cursor()
-
-    login_successful = logged_in(
-        cur=cur,
-        username=request.cookies.get('username'),
-        password=request.cookies.get('password'),
-    )
-
-    if login_successful:
+    if logged_in:
         return render_template(
             'root.html',
             username=request.cookies.get('username'),
-            messages=messages,
+            messages=messages
         )
     else:
         return render_template(
@@ -177,12 +168,64 @@ def logout():
     res.set_cookie('password', '', expires=0)
     return res
 
-@app.route('/delete_message/<message_id>')
-def delete_message(message_id):
+@app.route('/edit_message/<id>')
+def edit_message(id):
+    if request.form.get('edit_message'):
 
+        con = sqlite3.connect('twitter_database.db')
+        cur = con.cursor()
+        sql = """
+            SELECT id FROM users;
+        """
+        cur.execute(sql)
+        sql = """
+            SELECT message FROM messages;
+        """
+        cur.execute(sql)
+
+        message = request.form.get('edit_message')
+        con = sqlite3.connect('twitter_database.db')
+        cur = con.cursor()
+        sql = """
+        UPDATE messages SET message=? WHERE id=?;
+        """
+        cur.execute(sql, (id,))
+        con.commit()
+
+        if len(message) == 0:
+            edit_message_successful = False
+        else:
+            edit_message_successful = True
+
+        if edit_message_successful:
+            res = make_response(render_template(
+                'edit_message.html',
+                edit_message_successful=True,
+                username=request.cookies.get('username'),
+                password=request.cookies.get('password'),
+                message=request.form.get('edit_message')
+            ))
+            return res
+        else:
+            return render_template(
+                'edit_message.html',
+                username=request.cookies.get('username'),
+                password=request.cookies.get('password'),
+                edit_message_unsuccessful=True
+            )
+    else:
+        res = make_response(render_template(
+            'edit_message.html',
+            username=request.cookies.get('username'),
+            password=request.cookies.get('password'),
+            edit_message_default=True
+        ))
+        return res
+
+@app.route('/delete_message/<id>')
+def delete_message(id):
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
-
     if logged_in(
         cur=cur,
         username=request.cookies.get('username'),
@@ -191,12 +234,17 @@ def delete_message(message_id):
         sql = """
         DELETE FROM messages WHERE id=?;
         """
-        cur.execute(sql, (message_id,))
+        cur.execute(sql, (id,))
         con.commit()
-    return 'Message Deleted'
+        res = make_response(render_template(
+            'delete_message.html',
+            username=request.cookies.get('username'),
+            password=request.cookies.get('password'),
+            ))
+        return res
 
-@app.route('/delete_user/<user_id>')
-def delete_user(user_id):
+@app.route('/delete_user/<username>')
+def delete_user(username):
 
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
@@ -207,11 +255,18 @@ def delete_user(user_id):
             password=request.cookies.get('password'),
     ):
         sql = """
-        DELETE FROM users WHERE id=?;
+        DELETE FROM users WHERE username=?;
         """
-        cur.execute(sql, (user_id,))
+        cur.execute(sql, (username,))
         con.commit()
-    return 'User Deleted'
+        res = make_response(render_template(
+            'delete_user.html',
+        ))
+        res.set_cookie('username', '', expires=0)
+        res.set_cookie('password', '', expires=0)
+
+        return res
+    return render_template('root.html')
 
 @app.route('/static/<path>')
 def static_directory(path):
