@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        {% if edit_message_successful %}
+        <div class="alert alert-success" role="alert">
+            You successfully edited a message!
+        </div>
+        {% endif %}
+
+        {% if edit_message_unsuccessful %}
+        <div class="alert alert-danger" role="alert">
+            Message was not edited!
+        </div>
+        {% endif %}
+
+        <h2>Edit Message</h2>
+
+        <form action=/edit_message method=POST>
+            <p>Edit Message: </p><input type=text name=message><input type=submit value='edit_message'>
+        </form>
+
+{% endblock %}
