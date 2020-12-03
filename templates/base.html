@@ -16,6 +16,7 @@
             {% if username %}
             <li><a href='/create_message'>Create Message</a></li>
             <li><a href='/logout'>Log Out</a></li>
+            <li><a href="/delete_user/{{username}}">Delete User</a></li>
             {% else %}
             <li><a href='/login'>Log In</a></li>
             <li><a href='/create_user'>Create Account</a></li>
