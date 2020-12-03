@@ -171,15 +171,11 @@ def logout():
 @app.route('/edit_message/<id>')
 def edit_message(id):
     if request.form.get('edit_message'):
-
         con = sqlite3.connect('twitter_database.db')
         cur = con.cursor()
+
         sql = """
             SELECT id FROM users;
-        """
-        cur.execute(sql)
-        sql = """
-            SELECT message FROM messages;
         """
         cur.execute(sql)
 
