@@ -34,10 +34,11 @@ def root():
         for username_row in username_rows:
             username = username_row[0]
         messages.append({
-            'Text': result[1],
-            'Username': username,
-            'Created At': result[2]
+            'text': result[1],
+            'username': username,
+            'created_at': result[2]
         })
+        print(messages)
     con = sqlite3.connect('twitter_database.db')
     cur = con.cursor()
 
