@@ -33,7 +33,7 @@ def root():
         username_rows = cur.fetchall()
         for username_row in username_rows:
             username = username_row[0]
-        messages.append({
+        messages.insert(0, {
             'text': result[1],
             'username': username,
             'created_at': result[2]
