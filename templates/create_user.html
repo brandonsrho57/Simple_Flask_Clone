@@ -4,25 +4,31 @@
 
         {% if create_user_unsuccessful %}
         <div class="alert alert-danger" role="alert">
-            Username and Password must be at least one letter!
+            <p>Username and Password must be at least one letter!</p>
         </div>
         {% endif %}
 
         {% if create_user_successful %}
         <div class="alert alert-success" role="alert">
-            You made an account! Please log in!
+            <p>You made an account! Please log in!</p>
+        </div>
+        {% endif %}
+
+        {% if length_error %}
+        <div class="alert alert-danger" role="alert">
+            <p>One of the forms is not long enough! Please Try again!</p>
         </div>
         {% endif %}
 
         {% if username_error %}
         <div class="alert alert-danger" role="alert">
-            Username already exists! Use a different name!
+            <p>Username already exists! Use a different name!</p>
         </div>
         {% endif %}
 
         {% if password_error %}
         <div class="alert alert-danger" role="alert">
-            Passwords don't match! Please try again
+            <p>Passwords don't match! Please try again</p>
         </div>
         {% endif %}
 

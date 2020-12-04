@@ -92,40 +92,62 @@ def create_user():
     repeatpassword = request.form.get('repeatpassword')
     age = request.form.get('age')
     if password == repeatpassword:
-        try:
-            sql = """
-            INSERT into users (username,password,age) values (?,?,?);
-            """
-            cur.execute(sql, (username, password, age))
-            con.commit()
-            if len(username) == 0:
-                create_user_successful = False
-            elif len(password) == 0:
-                create_user_successful = False
-            elif len(age) == 0:
-                create_user_successful = False
-            else:
-                create_user_successful = True
+        if len(username) == 0:
+            create_user_successful = False
+            length_error = True
+            if length_error and create_user_successful == False:
+                res = make_response(render_template(
+                    'create_user.html',
+                    password_error=True
+                ))
+                return res
+        elif len(password) == 0:
+            create_user_successful = False
+            length_error = True
+            if length_error and create_user_successful == False:
+                res = make_response(render_template(
+                    'create_user.html',
+                    length_error=True
+                ))
+                return res
+        elif len(age) == 0:
+            create_user_successful = False
+            length_error = True
+            if length_error and create_user_successful == False:
+                res = make_response(render_template(
+                    'create_user.html',
+                    length_error=True
+                ))
+                return res
+        else:
+            create_user_successful = True
+            if len(username) != 0 and len(password) != 0 and len(age) != 0:
+                try:
+                    sql = """
+                    INSERT into users (username,password,age) values (?,?,?);
+                    """
+                    cur.execute(sql, (username, password, age))
+                    con.commit()
 
-            if create_user_successful:
-                res = make_response(render_template(
-                    'create_user.html',
-                    create_user_successful=True,
-                ))
-                return res
-            else:
-                return render_template(
-                    'create_user.html',
-                    create_user_unsuccessful=True
-                )
-        except sqlite3.IntegrityError:
-            username_error = True
-            if username_error:
-                res = make_response(render_template(
-                    'create_user.html',
-                    username_error=True
-                ))
-                return res
+                except sqlite3.IntegrityError:
+                    username_error = True
+                    if username_error:
+                        res = make_response(render_template(
+                            'create_user.html',
+                            username_error=True
+                        ))
+                        return res
+                if create_user_successful:
+                    res = make_response(render_template(
+                        'create_user.html',
+                        create_user_successful=True,
+                    ))
+                    return res
+                else:
+                    return render_template(
+                        'create_user.html',
+                        create_user_unsuccessful=True
+                    )
     else:
         password_error = True
         if password_error:
@@ -199,31 +221,21 @@ def logout():
     res.set_cookie('password', '', expires=0)
     return res
 
-@app.route('/edit_message/<id>')
+@app.route('/edit_message/<id>', methods=['get', 'post'])
 def edit_message(id):
     if request.form.get('edit_message'):
-        con = sqlite3.connect('twitter_database.db')
-        cur = con.cursor()
-
-        sql = """
-            SELECT id FROM users;
-        """
-        cur.execute(sql)
-
         message = request.form.get('edit_message')
         con = sqlite3.connect('twitter_database.db')
         cur = con.cursor()
-        sql = """
-        UPDATE messages SET message=? WHERE id=?;
-        """
-        cur.execute(sql, (id,))
-        con.commit()
-
         if len(message) == 0:
             edit_message_successful = False
         else:
             edit_message_successful = True
-
+            sql = """
+                    UPDATE messages SET message=? WHERE id=?;
+                """
+            cur.execute(sql, (id, message,))
+            con.commit()
         if edit_message_successful:
             res = make_response(render_template(
                 'edit_message.html',
@@ -245,9 +257,9 @@ def edit_message(id):
             'edit_message.html',
             username=request.cookies.get('username'),
             password=request.cookies.get('password'),
-            edit_message_default=True
         ))
         return res
+
 
 @app.route('/delete_message/<id>')
 def delete_message(id):

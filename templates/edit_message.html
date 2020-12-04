@@ -4,20 +4,29 @@
 
         {% if edit_message_successful %}
         <div class="alert alert-success" role="alert">
-            You successfully edited a message!
+            <p>You successfully edited a message!</p>
         </div>
         {% endif %}
 
         {% if edit_message_unsuccessful %}
         <div class="alert alert-danger" role="alert">
-            Message was not edited!
+            <p>Message was not edited!</p>
         </div>
         {% endif %}
 
-        <h2>Edit Message</h2>
+        <div class="container d-flex justify-content-center">
+            <h2>Edit Message</h2>
+        </div>
 
-        <form action=/edit_message method=POST>
-            <p>Edit Message: </p><input type=text name=paragraph><input type=submit value='edit_message'>
-        </form>
+        <br>
+        <br>
+
+        <div class="container d-flex justify-content-center">
+            <form action="/edit_message/<id>" method="POST">
+                <label for="edit_message">Message:</label>
+                <input type="text" name="edit_message">
+                <input type=submit value="Edit Message">
+            </form>
+        </div>
 
 {% endblock %}
