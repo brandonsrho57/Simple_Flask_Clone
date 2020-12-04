@@ -3,22 +3,32 @@
 {% block content %}
 
         {% if login_successful %}
-        You are logged in!
+        <div class="alert alert-success" role="alert">
+            You are logged in!
+        </div>
         {% endif %}
 
         {% if login_unsuccessful %}
-        ERROR: Username or Password Not Found! Sign Up!
+        <div class="alert alert-danger" role="alert">
+            ERROR: Username or Password Not Found! Try Again or Create an Account!
+        </div>
         {% endif %}
 
-        <h2>Login</h2>
+        <div class="container d-flex justify-content-center">
+            <h2>Login</h2>
+        </div>
+
+        <br>
+        <br>
+
         {% if login_default or login_unsuccessful %}
-        <form action=/login method=POST>
-            <table>
-                <tr><td>username</td><td><input type=text name=username></td></tr>
-                <tr><td>password</td><td><input type=password name=password></td></tr>
-            </table>
-            <input type=submit value='log in'>
-        </form>
+        <div class="container-fluid d-flex justify-content-center">
+            <form action=/login method=POST>
+                <label for="username">Username:</label><input type=text name=username><br>
+                <label for="password">Password:</label><input type=password name=password><br>
+                <input type=submit value='Log In'>
+            </form>
+        </div>
         {% endif %}
 
 {% endblock %}
