@@ -231,6 +231,8 @@ def edit_message(id):
             edit_message_successful = False
         else:
             edit_message_successful = True
+            con = sqlite3.connect('twitter_database.db')
+            con.cursor()
             sql = """
                     UPDATE messages SET message=? WHERE id=?;
                 """
@@ -313,6 +315,10 @@ def static_directory(path):
 
 @app.route('/mike')
 def mike():
-    return render_template('mike.html')
+    return render_template(
+        'mike.html',
+        username=request.cookies.get('username'),
+        password=request.cookies.get('password')
+    )
 
 app.run()
