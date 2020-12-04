@@ -98,11 +98,42 @@ def create_user():
             """
             cur.execute(sql, (username, password, age))
             con.commit()
-            return "You successfully created an account!"
+            if len(username) == 0:
+                create_user_successful = False
+            elif len(password) == 0:
+                create_user_successful = False
+            elif len(age) == 0:
+                create_user_successful = False
+            else:
+                create_user_successful = True
+
+            if create_user_successful:
+                res = make_response(render_template(
+                    'create_user.html',
+                    create_user_successful=True,
+                ))
+                return res
+            else:
+                return render_template(
+                    'create_user.html',
+                    create_user_unsuccessful=True
+                )
         except sqlite3.IntegrityError:
-            return "The username already exists!"
+            username_error = True
+            if username_error:
+                res = make_response(render_template(
+                    'create_user.html',
+                    username_error=True
+                ))
+                return res
     else:
-        return "Passwords don't match! Please try again."
+        password_error = True
+        if password_error:
+            res = make_response(render_template(
+                'create_user.html',
+                password_error=True
+            ))
+            return res
 
 
 
