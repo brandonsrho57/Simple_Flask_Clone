@@ -6,7 +6,7 @@
         <title>This is Brandon's Twitter clone for CS40!</title>
     </head>
 
-    <body>
+    <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="https://github.com/mikeizbicki/cmc-csci040">CS40</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls=navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,8 +42,12 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
-            <h1>CS40 Chat Forum</h1>
+        <div class="jumbotron jumbotron-fluid jumbotron-dark">
+            <div class="container">
+                <h1 class="display-3">CS40 Chat Forum</h1>
+                <p class="lead">This is a simple project that combines various bits and pieces of code that we've used all year in CS40, with <em>Mike Izbicki</em>! I <strong>urge</strong> you to check out his <a href="https://www.izbicki.me" class="text-success">personal website</a>!
+            </div>
+        </div>
 
             {% block title %}
             {% endblock %}
