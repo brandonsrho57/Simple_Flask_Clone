@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <h2>This is Mike</h2>
-        <a href="https://www.izbicki.me"><img src='/static/mike.png'/></a>
-        <p>Go to his personal webpage <a href="https://www.izbicki.me">here</a>!</p>
+        <div class="row no-gutters bg-light position-relative">
+                <div class="col-md-6 mb-md-0 p-md-4">
+                        <img src="/static/mike.png" class="w-100" alt="Mike!">
+                </div>
+                <div class="col-md-6 position-static p-4 pl-md-0">
+                        <h5 class="mt-0">Mike Izbicki</h5>
+                        <p>His name is Mike Izbicki, and he's a professor at CMC. His research develops new machine learninng algorithms for large scale social media problems. He's recently been focusing on better machine learning algorithms for non-English natural language text. In a past life he was a naval officer, but he left as a conscientious objector. You can contact him at mike@izbicki.me for just about anything.</p>
+                        <a href="https://www.izbicki.me" class="stretched-link">Go to his site!</a>
+                </div>
+        </div>
 {% endblock %}
