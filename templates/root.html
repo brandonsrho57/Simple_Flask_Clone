@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}
-        <h2>Homepage</h2>
+        <div class="container-fluid d-flex justify-content-center">
+            <h1>Homepage</h1>
+        </div>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +13,7 @@
             <h2>Welcome, {{username}}!</h2>
         </div>
         <div class="container-fluid d-flex justify-content-center">
-            <p><a href='/create_message'>Create Message?</a></p>
+            <h3><a href='/create_message'>Create Message?</a></h3>
         </div>
         {% endif %}
 
