@@ -5,26 +5,34 @@
 {% endblock %}
 
 {% block content %}
+
         {% if username %}
-        <h3>Welcome, {{username}}!</h3>
+        <div class="container-fluid d-flex justify-content-center">
+            <h2>Welcome, {{username}}!</h2>
+        </div>
+        <div class="container-fluid d-flex justify-content-center">
+            <p><a href='/create_message'>Create Message?</a></p>
+        </div>
         {% endif %}
 
-        <table>
-            <tr>
-                <td>Username</td>
-                <td>Message</td>
-                <td>Timestamp</td>
-                <td>Message ID</td>
-            </tr>
+        <table class="table table-dark table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Timestamp</th>
+                </tr>
+            </thead>
             {% for message in messages %}
-            <tr>
-                <td>{{ message.username }}</td>
-                <td>{{ message.text }}</td>
-                <td>{{ message.created_at }}</td>
-                <td>{{ message.id }}</td>
-                <td>{% if username==message.username %}<a href="/edit_message/{{message.id}}">Edit Message</a>{% endif %}</td>
-                <td>{% if username==message.username %}<a href="/delete_message/{{message.id}}">Delete Message</a>{% endif %}</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <th>{{ message.username }}</th>
+                    <th>{{ message.text }}</th>
+                    <th>{{ message.created_at }}</th>
+                    <th>{% if username==message.username %}<a href="/edit_message/{{message.id}}">Edit Message</a>{% endif %}</th>
+                    <th>{% if username==message.username %}<a href="/delete_message/{{message.id}}">Delete Message</a>{% endif %}</th>
+                </tr>
+            </tbody>
             {% endfor %}
         </table>
 {% endblock %}
