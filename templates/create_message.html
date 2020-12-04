@@ -14,13 +14,19 @@
         </div>
         {% endif %}
 
-        <h2>Create Message</h2>
+        <div class="container d-flex justify-content-center">
+            <h3>Create Message</h3>
+        </div>
 
-        <form action=/create_message method=POST>
-            <table>
-                <tr><td>Message: </td><td><input type=text name=message></td></tr>
-            </table>
-            <input type=submit value='Create Message'>
-        </form>
+        <br>
+        <br>
+
+        <div class="container d-flex justify-content-center">
+            <form action="/create_message" method="POST">
+                <label for="message">Message:</label>
+                <input type="text" name="message">
+                <input type=submit value="Create Message">
+            </form>
+        </div>
 
 {% endblock %}
